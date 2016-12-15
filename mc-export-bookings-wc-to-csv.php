@@ -99,7 +99,7 @@ class MC_Export_Bookings {
 					<?php }?>
 				</select>
 				
-				<h3><?php  esc_html_e( 'Cliquez pour sauvegardez l\'export. Si vous faites plusieurs exports, renommez-les en fonction', 'export-bookings-csv' ); ?>.</h3>
+				<h3><?php esc_html_e( 'Cliquez pour sauvegardez l\'export. Si vous faites plusieurs exports, renommez-les en fonction', 'export-bookings-csv' ); ?>.</h3>
 				
 				<p class="submit"><input type="submit" name="Submit" value="Exporter" /></p>
 			</form>
@@ -176,15 +176,15 @@ class MC_Export_Bookings {
 		$f = fopen('php://output', 'w'); 
 		$header = array( 
             __( 'No Resas', 'export-bookings-to-csv' ), 
-            __( 'Evenenements' ), 
-            __( 'Debut' ), 
-            __( 'Fin' ), 
-            __( 'Ressource' ), 
-            __( 'Nom' ), 
-            __( 'Prenom' ), 
-            __( 'Mail' ), 
-            __( 'Telephone' ), 
-            __( 'Prix paye' )
+            __( 'Evenenements', 'export-bookings-to-csv' ), 
+            __( 'Debut', 'export-bookings-to-csv' ), 
+            __( 'Fin', 'export-bookings-to-csv' ), 
+            __( 'Ressource', 'export-bookings-to-csv' ), 
+            __( 'Nom', 'export-bookings-to-csv' ), 
+            __( 'Prenom', 'export-bookings-to-csv' ), 
+            __( 'Mail', 'export-bookings-to-csv' ), 
+            __( 'Telephone', 'export-bookings-to-csv' ), 
+            __( 'Prix paye', 'export-bookings-to-csv' )
         );
 		fputcsv($f, $header, ';');
 		// loop over the input array

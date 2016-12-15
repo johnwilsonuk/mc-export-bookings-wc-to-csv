@@ -21,3 +21,59 @@ msgstr ""
 #: ../mc-export-bookings-wc-to-csv.php:47
 msgid "Exporter réservations"
 msgstr "Export Bookings"
+
+#: ../mc-export-bookings-wc-to-csv.php:89
+msgid "Exporter les réservations"
+msgstr "Export the bookings"
+
+#: ../mc-export-bookings-wc-to-csv.php:92
+msgid "Choisissez quel type d'évènement vous souhaitez exporter"
+msgstr "Choose what type of event you want to export"
+
+#: ../mc-export-bookings-wc-to-csv.php:96
+msgid "Selectionner un évènement"
+msgstr "Select an event"
+
+#: ../mc-export-bookings-wc-to-csv.php:102
+msgid "Cliquez pour sauvegardez l\'export. Si vous faites plusieurs exports, renommez-les en fonction"
+msgstr "Click to save the export. If you are making multiple exports, rename them to"
+
+#: ../mc-export-bookings-wc-to-csv.php:102
+msgid "No Resas"
+msgstr "No Resas"
+
+#: ../mc-export-bookings-wc-to-csv.php:102
+msgid "Evenenements"
+msgstr "Events"
+
+#: ../mc-export-bookings-wc-to-csv.php:102
+msgid "Début"
+msgstr "Home"
+
+#: ../mc-export-bookings-wc-to-csv.php:102
+msgid "Fin"
+msgstr "End"
+
+#: ../mc-export-bookings-wc-to-csv.php:102
+msgid "Ressource"
+msgstr "Resource"
+
+#: ../mc-export-bookings-wc-to-csv.php:102
+msgid "Nom"
+msgstr "Last Name"
+
+#: ../mc-export-bookings-wc-to-csv.php:102
+msgid "Prenom"
+msgstr "First name"
+
+#: ../mc-export-bookings-wc-to-csv.php:102
+msgid "Mail"
+msgstr "Email"
+
+#: ../mc-export-bookings-wc-to-csv.php:102
+msgid "Telephone"
+msgstr "Telephone"
+
+#: ../mc-export-bookings-wc-to-csv.php:102
+msgid "Prix paye"
+msgstr "Price paid"
