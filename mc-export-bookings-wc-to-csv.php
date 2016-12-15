@@ -4,9 +4,38 @@
  * @version 1.0.0
  */
 /*
-Plugin Name: MC Export Bookings WC to CSV
-
+* Plugin Name: MC Export Bookings WC to CSV
+* Plugin URI: https://github.com/MarieComet/mc-export-bookings-wc-to-csv/
+* Version: 1.0.0
+* Description: MC Export Bookings WC to CSV provides user ability to Export WooCommerce Bookings to CSV
+* Author: Marie Comet
+* Author URI: http://mariecomet.fr
+* License: GPL2
+* Text-domain: export-bookings-to-csv
 */
+
+/**
+*
+* Escape is someone tries to access directly
+*
+**/
+if ( ! defined( 'ABSPATH') ) {
+    exit;
+}
+
+
+/**
+*
+* Call the translation file
+*
+**/
+add_action('init', 'mcebcsv_load_translation_file');
+
+function mcebcsv_load_translation_file() {
+    // relative path to WP_PLUGIN_DIR where the translation files will sit:
+    $plugin_path = dirname( plugin_basename( __FILE__ ) ) . '/languages/';
+    load_plugin_textdomain( 'export-bookings-to-csv', false, $plugin_path );
+}
 
 /**
  * Main plugin class
@@ -31,7 +60,14 @@ class MC_Export_Bookings {
 	 * @since 0.1
 	 **/
 	public function add_admin_pages() {
-		add_submenu_page( 'edit.php?post_type=wc_booking', __( 'Exporter réservations', 'export-bookings-to-csv' ), __( 'Exporter réservations', 'export-bookings-to-csv' ), 'manage_options', 'export-bookings-to-csv', array( $this,'export_bookings_to_csv') );
+		add_submenu_page( 
+            'woocommerce', 
+            __( 'Exporter réservations', 'export-bookings-to-csv' ),
+            __( 'Exporter réservations', 'export-bookings-to-csv' ),
+            'manage_options', 
+            'export-bookings-to-csv', 
+            array( $this,'export_bookings_to_csv') 
+        );
 	}
 	
 	/**
@@ -39,9 +75,7 @@ class MC_Export_Bookings {
 	 *
 	 * @since 0.1
 	 **/
-	 public function export_bookings_to_csv(){
-		echo '<h1>Exporter les réservations</h1>';
-		
+	 public function export_bookings_to_csv(){		
 		global $wpdb;
 		
 		$args = array(
@@ -52,20 +86,20 @@ class MC_Export_Bookings {
 		// Query all products for display them in the select in the backoffice
 	?>
 		<div class="wrap">
-			<h2>Exporter les réservations</h2>
+			<h2><?php esc_html_e( 'Exporter les réservations' , 'export-bookings-csv' ); ?></h2>
 			<form method="post" name="csv_exporter_form" action="" enctype="multipart/form-data">
 				<?php wp_nonce_field( 'export-bookings-bookings_export', '_wpnonce-export-bookings-bookings_export' ); ?>
-				<p><h3>Choisissez quel type d'évènement vous souhaitez exporter:</h3></p>
+				<h3><?php _e( 'Choisissez quel type d\'évènement vous souhaitez exporter', 'export-bookings-csv' ); ?>:</h3>
 				
-				<label>Evènement:</label>
+				<label><?php esc_html_e( 'Evènement', 'export-bookings-csv' ); ?>:</label>
 				<select name="resource" id="resource">
-					<option value="">Selectionner un évènement</option>
+					<option value=""><?php esc_html_e( 'Selectionner un évènement', 'export-bookings-csv' ); ?></option>
 					<?php foreach($products as $product) {?>
-						<option value="<?php echo  $product->ID;?>" name="event"><?php echo  $product->post_title; ?></option>
+						<option value="<?php echo  $product->ID;?>" name="event"><?php echo $product->post_title; ?></option>
 					<?php }?>
 				</select>
 				
-				<h3>Cliquez pour sauvegardez l'export. Si vous faites plusieurs exports, renommez-les en fonction.</h3>
+				<h3><?php  esc_html_e( 'Cliquez pour sauvegardez l\'export. Si vous faites plusieurs exports, renommez-les en fonction', 'export-bookings-csv' ); ?>.</h3>
 				
 				<p class="submit"><input type="submit" name="Submit" value="Exporter" /></p>
 			</form>
@@ -140,7 +174,18 @@ class MC_Export_Bookings {
 		ob_start();
 		// open raw memory as file so no temp files needed, you might run out of memory though
 		$f = fopen('php://output', 'w'); 
-		$header = array('No Resas', 'Evenenements', 'Debut', 'Fin', 'Ressource', 'Nom', 'Prenom', 'Mail', 'Telephone', 'Prix paye');
+		$header = array( 
+            __( 'No Resas', 'export-bookings-to-csv' ), 
+            __( 'Evenenements' ), 
+            __( 'Debut' ), 
+            __( 'Fin' ), 
+            __( 'Ressource' ), 
+            __( 'Nom' ), 
+            __( 'Prenom' ), 
+            __( 'Mail' ), 
+            __( 'Telephone' ), 
+            __( 'Prix paye' )
+        );
 		fputcsv($f, $header, ';');
 		// loop over the input array
 		foreach ($data as $line) { 
