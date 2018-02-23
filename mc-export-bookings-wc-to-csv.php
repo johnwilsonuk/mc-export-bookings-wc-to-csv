@@ -1,15 +1,15 @@
 <?php 
 /**
  * @package MC_Export_Bookings_CV_to_CSV
- * @version 1.0.0
+ * @version 1.0.1
  */
 /*
 * Plugin Name: MC Export Bookings WC to CSV
 * Plugin URI: https://github.com/MarieComet/mc-export-bookings-wc-to-csv/
-* Version: 1.0.0
+* Version: 1.0.1
 * Description: MC Export Bookings WC to CSV provides user ability to Export WooCommerce Bookings to CSV
 * Author: Marie Comet
-* Author URI: http://mariecomet.fr
+* Author URI: https://mariecomet.fr
 * License: GPL2
 * Text-domain: export-bookings-to-csv
 */

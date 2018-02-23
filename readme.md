@@ -1,7 +1,7 @@
 # MC Export Bookings WC to CSV
 
 * Contributors: MarieComet
-* Website link: http://mariecomet.fr/
+* Website link: https://mariecomet.fr/
 * Tags: woocommerce
 * Requires at least: 4.7
 * Tested up to: 4.9.4
