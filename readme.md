@@ -37,3 +37,7 @@ This section describes how to install the plugin and get it working.
 * Update the main function `generate_csv` :
 * Use WC_Booking_Data_Store to get bookings id from order instead of previously 'Booking ID' meta value which was not a stable value.
 * Display only bookable product in the products select.
+
+### 23/02/2018 1.0.1
+* Totally change the way to query bookings :
+- Instead of looping on orders, query directly bookings for selected product ID.

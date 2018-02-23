@@ -106,15 +106,13 @@ class MC_Export_Bookings {
 					<?php }?>
 				</select>
 				
-				<h2><?php esc_html_e( 'Cliquez pour sauvegardez l\'export.', 'export-bookings-csv' ); ?>.</h2>
+				<h2><?php esc_html_e( 'Cliquez pour sauvegardez l\'export', 'export-bookings-csv' ); ?>.</h2>
 				
 				<p class="submit"><input type="submit" name="Submit" value="Exporter" /></p>
 			</form>
 		</div>
 		<?php 
 	}
-
-
 	
 	public function generate_csv(){
 
@@ -124,78 +122,64 @@ class MC_Export_Bookings {
 				global $wpdb;
 
 				$product_id_select = $_POST['resource']; // the value selected in the dropdown in back office = product id
+
 				$product_slug = get_post_field( 'post_name', $product_id_select );
 				$file_name = $product_slug . '-' . date('d-m-Y-h-i');
 
-				$args = array(
-				    'post_type' => 'shop_order',
-	 				'post_status' => 'wc-completed',
-				    'posts_per_page' => -1,
-				   
-				);
-				$orders = get_posts($args);
-				// Query all orders which are completed
-				if ( $orders ) :
+				if ( ! class_exists( 'WC_Booking_Data_Store' ) ) {
+					return;
+				}
 
+				$booking_data = new WC_Booking_Data_Store();
+
+				$bookings_ids = $booking_data->get_booking_ids_by( array(
+					'object_id'   => $product_id_select,
+					'object_type' => 'product',
+					'order_by' => 'start_date',
+					//'status'      => array( 'confirmed', 'paid' ),
+					'limit'        => -1,
+				) );
+				
+				if ( $bookings_ids ) {
 					$data = array();
-					foreach( $orders as $o ) :
 
-						if ( ! class_exists( 'WC_Booking_Data_Store' ) ) {
-						    return;
+					foreach ( $bookings_ids as $booking_id ) {
+						$booking = new WC_Booking( $booking_id );
+
+						$product_name = $booking->get_product()->get_title();
+
+				    	$resource = $booking->get_resource();
+				    	if ( $booking->has_resources() && $resource ) {
+				    		$booking_ressource = $resource->post_title;
+				    	}
+
+						$start_date_timestamp = $booking->get_start();
+						$start_date = date( 'd-m-Y H:i',$start_date_timestamp );
+
+						$end_date_timestamp = $booking->get_end();
+						$end_date = date( 'd-m-Y H:i', $end_date_timestamp );
+
+						$order = $booking->get_order();
+						if ( $order ) {
+							$customer_name = $order->get_billing_first_name();
+							$customer_last_name = $order->get_billing_last_name();
+							$customer_mail = $order->get_billing_email();
+							$customer_phone = $order->get_billing_phone();
+
+							$price = $order->get_total();
 						}
 
-					    $order_id = $o->ID;
-					    $order = new WC_Order($order_id);
-					
-					    foreach( $order->get_items() as $item ):
-
-					    	$product_id = $item['product_id'];
-
-					    	if ( $product_id_select == $product_id ) {
-						    	$product = $item['name']; // product name
-
-						    	$booking_data = new WC_Booking_Data_Store();
-						    	$booking_ids = $booking_data->get_booking_ids_from_order_item_id( $item->get_id() );
-
-						    	if ( $booking_ids ) {
-							    	foreach ( $booking_ids as $booking_id ) {
-							    	    $booking  = new WC_Booking( $booking_id );
-							    	    $status = $booking->get_status();
-					    	        	/* here we are querying informations in the postmeta table */
-					    	        	$ressource_id = get_post_meta($booking_id, '_booking_resource_id', true); // get the resource id. if you're not using resources remove this
-
-					    	        	$booking_ressource = get_the_title($ressource_id); // get the resource name
-
-					    	    		$start_date_long = get_post_meta( $booking_id, '_booking_start', true ); 
-					    	    		$start_date_timestamp = DateTime::createFromFormat('YmdHis', $start_date_long);
-					    	    		$start_date = $start_date_timestamp->format('d-m-Y h:i');
-
-					    	    		$end_date_long = get_post_meta( $booking_id, '_booking_end', true );
-					    	    		$end_date_timestamp = DateTime::createFromFormat('YmdHis', $end_date_long);
-					    	    		$end_date = $end_date_timestamp->format('d-m-Y h:i');
-
-					    	    		$customer_name = get_post_meta( $order_id, '_billing_first_name', true );
-					    	    		$customer_last_name = get_post_meta( $order_id, '_billing_last_name', true );
-					    	    		$customer_mail = get_post_meta( $order_id, '_billing_email', true);
-					    	    		$customer_phone = get_post_meta( $order_id, '_billing_phone', true);
-
-					    	    		$price = get_post_meta($order_id, '_order_total', true);
-
-					    	        	if($start_date && $end_date){ // check if there are a start date and end date
-					    	    			$data[] = array($booking_id, $product, $start_date, $end_date, $booking_ressource, $customer_name, $customer_last_name, $customer_mail, $customer_phone, $price);
-					    	    			// here we construct the array to pass informations to export CSV
-					    	    		}
-
-							    	}
-							    }
-							}
-					   endforeach;
-					endforeach;	
-					if ( $data && !empty( $data ) ) {
-						$this->array_to_csv_download( $data, $file_name ); // pass $data to array_to_csv_download function
+				    	if ( $start_date && $end_date ) { // check if there are a start date and end date
+							$data[] = array($booking_id, $product_name, $start_date, $end_date, $booking_ressource, $customer_name, $customer_last_name, $customer_mail, $customer_phone, $price);
+							// here we construct the array to pass informations to export CSV
+						}
 					}
 
-				endif;
+					if ( $data && is_array( $data ) && !empty( $data ) ) {
+						$this->array_to_csv_download( $data, $file_name ); // pass $data to array_to_csv_download function
+					}
+				}
+
 				exit;
 			}
 		}
