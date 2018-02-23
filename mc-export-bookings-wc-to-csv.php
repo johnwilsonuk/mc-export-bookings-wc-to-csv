@@ -80,7 +80,14 @@ class MC_Export_Bookings {
 		
 		$args = array(
 			    'post_type' => 'product',
-			    'posts_per_page' => -1,  
+			    'posts_per_page' => -1,
+			    'tax_query' => array(
+		    		array(
+		    			'taxonomy' => 'product_type',
+		    			'field'    => 'slug',
+		    			'terms'    => 'booking',
+		    		),
+		    	),
 		);
 		$products = get_posts($args);
 		// Query all products for display them in the select in the backoffice
@@ -99,7 +106,7 @@ class MC_Export_Bookings {
 					<?php }?>
 				</select>
 				
-				<h3><?php esc_html_e( 'Cliquez pour sauvegardez l\'export. Si vous faites plusieurs exports, renommez-les en fonction', 'export-bookings-csv' ); ?>.</h3>
+				<h2><?php esc_html_e( 'Cliquez pour sauvegardez l\'export.', 'export-bookings-csv' ); ?>.</h2>
 				
 				<p class="submit"><input type="submit" name="Submit" value="Exporter" /></p>
 			</form>
@@ -110,73 +117,98 @@ class MC_Export_Bookings {
 
 	
 	public function generate_csv(){
+
 		if ( isset( $_POST['_wpnonce-export-bookings-bookings_export'] ) ) {
+			if ( isset( $_POST ) && !empty( $_POST) && isset( $_POST['resource'] ) && !empty( $_POST['resource'] ) ) {
 
-			global $wpdb;
-			$event_name = $_POST['resource']; // the value selected in the dropdown in back office = product id
-			
-			$args = array(
-			    'post_type' => 'shop_order',
- 				'post_status' => 'wc-completed',
-			    'posts_per_page' => -1,
-			   
-			);
-			$orders = get_posts($args);
-			// Query all orders which are completed
-			foreach($orders as $o):
+				global $wpdb;
 
-			    $order_id = $o->ID;
-			    $order = new WC_Order($order_id);
-			
-			    foreach( $order->get_items() as $item ):
+				$product_id_select = $_POST['resource']; // the value selected in the dropdown in back office = product id
+				$product_slug = get_post_field( 'post_name', $product_id_select );
+				$file_name = $product_slug . '-' . date('d-m-Y-h-i');
 
-			    $event_id = $item['product_id']; // product_id = meta_key for the product id attached to the booking in the woocommerce_order_itemmeta table
-				$product_id = $item['Booking ID']; // Booking id = meta_key for the booking id in the woocommerce_order_itemmeta table
-				if($event_id == $event_name && !empty($product_id)): // check if the selected product in the back office is equal to product_id in database AND product_id not empty
-			    	
-			    	$product = $item['name']; // product name
+				$args = array(
+				    'post_type' => 'shop_order',
+	 				'post_status' => 'wc-completed',
+				    'posts_per_page' => -1,
+				   
+				);
+				$orders = get_posts($args);
+				// Query all orders which are completed
+				if ( $orders ) :
 
-			    	/* here we are querying informations in the postmeta table */
-			    	$ressource_id = get_post_meta($product_id, '_booking_resource_id', true); // get the resource id. if you're not using resources remove this
+					$data = array();
+					foreach( $orders as $o ) :
 
-			    	$booking_ressource = get_the_title($ressource_id); // get the resource name
+						if ( ! class_exists( 'WC_Booking_Data_Store' ) ) {
+						    return;
+						}
 
-					$start_date_long = get_post_meta( $product_id, '_booking_start', true ); 
-					$start_date_timestamp = DateTime::createFromFormat('YmdHis', $start_date_long);
-					$start_date = $start_date_timestamp->format('d-m-Y h:i');
+					    $order_id = $o->ID;
+					    $order = new WC_Order($order_id);
+					
+					    foreach( $order->get_items() as $item ):
 
-					$end_date_long = get_post_meta( $product_id, '_booking_end', true );
-					$end_date_timestamp = DateTime::createFromFormat('YmdHis', $end_date_long);
-					$end_date = $end_date_timestamp->format('d-m-Y h:i');
+					    	$product_id = $item['product_id'];
 
-					$customer_name = get_post_meta( $order_id, '_billing_first_name', true );
-					$customer_last_name = get_post_meta( $order_id, '_billing_last_name', true );
-					$customer_mail = get_post_meta( $order_id, '_billing_email', true);
-					$customer_phone = get_post_meta( $order_id, '_billing_phone', true);
+					    	if ( $product_id_select == $product_id ) {
+						    	$product = $item['name']; // product name
 
-					$price = get_post_meta($order_id, '_order_total', true);
+						    	$booking_data = new WC_Booking_Data_Store();
+						    	$booking_ids = $booking_data->get_booking_ids_from_order_item_id( $item->get_id() );
 
-			    	if($start_date && $end_date){ // check if there are a start date and end date
-						$data[] = array($product_id, $product, $start_date, $end_date, $booking_ressource, $customer_name, $customer_last_name, $customer_mail, $customer_phone, $price);
-						// here we construct the array to pass informations to export CSV
+						    	if ( $booking_ids ) {
+							    	foreach ( $booking_ids as $booking_id ) {
+							    	    $booking  = new WC_Booking( $booking_id );
+							    	    $status = $booking->get_status();
+					    	        	/* here we are querying informations in the postmeta table */
+					    	        	$ressource_id = get_post_meta($booking_id, '_booking_resource_id', true); // get the resource id. if you're not using resources remove this
+
+					    	        	$booking_ressource = get_the_title($ressource_id); // get the resource name
+
+					    	    		$start_date_long = get_post_meta( $booking_id, '_booking_start', true ); 
+					    	    		$start_date_timestamp = DateTime::createFromFormat('YmdHis', $start_date_long);
+					    	    		$start_date = $start_date_timestamp->format('d-m-Y h:i');
+
+					    	    		$end_date_long = get_post_meta( $booking_id, '_booking_end', true );
+					    	    		$end_date_timestamp = DateTime::createFromFormat('YmdHis', $end_date_long);
+					    	    		$end_date = $end_date_timestamp->format('d-m-Y h:i');
+
+					    	    		$customer_name = get_post_meta( $order_id, '_billing_first_name', true );
+					    	    		$customer_last_name = get_post_meta( $order_id, '_billing_last_name', true );
+					    	    		$customer_mail = get_post_meta( $order_id, '_billing_email', true);
+					    	    		$customer_phone = get_post_meta( $order_id, '_billing_phone', true);
+
+					    	    		$price = get_post_meta($order_id, '_order_total', true);
+
+					    	        	if($start_date && $end_date){ // check if there are a start date and end date
+					    	    			$data[] = array($booking_id, $product, $start_date, $end_date, $booking_ressource, $customer_name, $customer_last_name, $customer_mail, $customer_phone, $price);
+					    	    			// here we construct the array to pass informations to export CSV
+					    	    		}
+
+							    	}
+							    }
+							}
+					   endforeach;
+					endforeach;	
+					if ( $data && !empty( $data ) ) {
+						$this->array_to_csv_download( $data, $file_name ); // pass $data to array_to_csv_download function
 					}
-					endif;
-			   endforeach;
-			endforeach;	
-			
-			$this->array_to_csv_download($data); // pass $data to array_to_csv_download function
-			exit;
+
+				endif;
+				exit;
+			}
 		}
 	}
 	
-	function array_to_csv_download($data, $filename = "export.csv", $delimiter=",") {
+	function array_to_csv_download($data, $filename, $delimiter=",") {
 		// echo 'here';
 		ob_start();
 		// open raw memory as file so no temp files needed, you might run out of memory though
 		$f = fopen('php://output', 'w'); 
 		$header = array( 
-            __( 'No Resas', 'export-bookings-to-csv' ), 
-            __( 'Evenenements', 'export-bookings-to-csv' ), 
+            __( 'No Resa', 'export-bookings-to-csv' ), 
+            __( 'Evenenement', 'export-bookings-to-csv' ), 
             __( 'Debut', 'export-bookings-to-csv' ), 
             __( 'Fin', 'export-bookings-to-csv' ), 
             __( 'Ressource', 'export-bookings-to-csv' ), 
@@ -196,7 +228,7 @@ class MC_Export_Bookings {
 		// rewrind the "file" with the csv lines
 		// fseek($f, 0);
 		header("Content-Type: application/csv");    
-		header("Content-Disposition: attachment; filename=".$filename);  
+		header("Content-Disposition: attachment; filename=" . $filename . ".csv");  
 		// Disable caching
 		header("Cache-Control: no-cache, no-store, must-revalidate"); // HTTP 1.1
 		header("Pragma: no-cache"); // HTTP 1.0
