@@ -1,0 +1,165 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: MC Export Bookings WC to CSV\n"
+"POT-Creation-Date: 2018-02-26 18:58+0100\n"
+"PO-Revision-Date: 2018-02-26 19:03+0100\n"
+"Last-Translator: \n"
+"Language-Team: LAB\n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.7\n"
+"X-Poedit-KeywordsList: __;_e;esc_html_e\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: .git\n"
+
+#: includes/class-mc-export-bookings.php:56
+#: includes/class-mc-export-bookings.php:57
+#: includes/class-mc-export-bookings.php:84
+msgid "Export bookings"
+msgstr "Exporter les réservations"
+
+#: includes/class-mc-export-bookings.php:88
+msgid "Select from which product to export bookings :"
+msgstr "Sélectionnez à partir de quel produit exporter les réservations :"
+
+#: includes/class-mc-export-bookings.php:90
+msgid "Product : "
+msgstr "Produit :"
+
+#: includes/class-mc-export-bookings.php:92
+msgid "Select a product"
+msgstr "Sélectionnez un produit"
+
+#: includes/class-mc-export-bookings.php:102
+msgid "Click on \"export\" to generate CSV file :"
+msgstr "Cliquez sur \"exporter\" pour générer le fichier CSV :"
+
+#: includes/class-mc-export-bookings.php:103
+msgid "Export"
+msgstr "Exporter"
+
+#: includes/class-mc-export-bookings.php:106
+msgid "Be patient, export is in progress, please do not close this page."
+msgstr ""
+"L'export est en cours, soyez patient et ne fermez pas cette page jusqu'à la "
+"fin du processus."
+
+#: includes/class-mc-export-bookings.php:107
+msgid "A download link will be displayed below at the end of the process."
+msgstr ""
+"Un lien pour télécharger votre fichier s'affichera ci-dessous à la fin du "
+"processus"
+
+#: includes/class-mc-export-bookings.php:110
+msgid "Download your file :"
+msgstr "Téléchargez votre fichier :"
+
+#: includes/class-mc-export-bookings.php:111
+msgid "Download"
+msgstr "Télécharger"
+
+#: includes/class-mc-export-bookings.php:122
+msgid "Your previous exports :"
+msgstr "Vos exportations précédentes :"
+
+#: includes/class-mc-export-bookings.php:208
+#: includes/class-mc-export-bookings.php:258
+msgid "Can't found WC_Booking_Data_Store class."
+msgstr "Impossible de trouver la classe WC_Booking_Data_Store."
+
+#: includes/class-mc-export-bookings.php:217
+#, php-format
+msgid "<b>%d</b> booking(s) found."
+msgstr "<b>%d</b> réservation(s) trouvée(s)."
+
+#: includes/class-mc-export-bookings.php:220
+msgid "No booking(s) found for this product."
+msgstr "Aucune réservation trouvée pour ce produit."
+
+#: includes/class-mc-export-bookings.php:225
+msgid "Please select product."
+msgstr "Sélectionnez un produit."
+
+#: includes/class-mc-export-bookings.php:345
+msgid "No Resa"
+msgstr "Booking #"
+
+#: includes/class-mc-export-bookings.php:346
+msgid "Produit"
+msgstr "Product"
+
+#: includes/class-mc-export-bookings.php:347
+msgid "Debut"
+msgstr "Start"
+
+#: includes/class-mc-export-bookings.php:348
+msgid "Fin"
+msgstr "End"
+
+#: includes/class-mc-export-bookings.php:349
+msgid "Ressource"
+msgstr "Resource"
+
+#: includes/class-mc-export-bookings.php:350
+msgid "Nom"
+msgstr "Last Name"
+
+#: includes/class-mc-export-bookings.php:351
+msgid "Prenom"
+msgstr "First name"
+
+#: includes/class-mc-export-bookings.php:352
+msgid "Mail"
+msgstr "Email"
+
+#: includes/class-mc-export-bookings.php:353
+msgid "Telephone"
+msgstr "Telephone"
+
+#: includes/class-mc-export-bookings.php:354
+msgid "Prix paye"
+msgstr "Price paid"
+
+#: mc-export-bookings-wc-to-csv.php:54
+msgid ""
+"MC Export Bookings WC to CSV plugin needs \"WooCommerce\" and \"WooCommerce "
+"Bookings\" to run. Please download and activate it"
+msgstr ""
+"L'extension MC Export Bookings WC to CSV requiert \"WooCommerce\" et "
+"\"WooCommerce Bookings\" pour fonctionner. Veuillez les télécharger et les "
+"activer."
+
+#~ msgid "Export WooCommerce Bookings"
+#~ msgstr "Exporter les ré"
+
+#~ msgid "Exporter réservations"
+#~ msgstr "Export Bookings"
+
+#~ msgid "Exporter les réservations"
+#~ msgstr "Export the bookings"
+
+#~ msgid "Choisissez quel type d'évènement vous souhaitez exporter"
+#~ msgstr "Choose what type of event you want to export"
+
+#~ msgid "Selectionner un évènement"
+#~ msgstr "Select an event"
+
+#~ msgid ""
+#~ "Cliquez pour sauvegardez l'export. Si vous faites plusieurs exports, "
+#~ "renommez-les en fonction"
+#~ msgstr ""
+#~ "Click to save the export. If you are making multiple exports, rename them "
+#~ "to"
+
+#~ msgid "No Resas"
+#~ msgstr "No Resas"
+
+#~ msgid "Evenenements"
+#~ msgstr "Events"
+
+#~ msgid "Début"
+#~ msgstr "Home"

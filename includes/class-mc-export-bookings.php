@@ -81,15 +81,15 @@ if ( !class_exists( 'MC_Export_Bookings' ) ) {
 			// Query all products for display them in the select in the backoffice
 			?>
 			<div class="wrap">
-				<h1 class="wp-heading-inline"><?php esc_html_e( 'Export WooCommerce Bookings' , 'export-bookings-csv' ); ?></h1>
+				<h1 class="wp-heading-inline"><?php esc_html_e( 'Export bookings' , 'export-bookings-to-csv' ); ?></h1>
 				<div class="mc-wcb-export-box postbox">
 					<form method="post" name="csv_exporter_form" action="" enctype="multipart/form-data">
 						<?php wp_nonce_field( 'export-bookings-bookings_export', '_wpnonce-export-bookings' ); ?>
-						<h2>1. <?php esc_html_e( 'Select from which product to export bookings :', 'export-bookings-csv' ); ?></h2>
+						<h2>1. <?php esc_html_e( 'Select from which product to export bookings :', 'export-bookings-to-csv' ); ?></h2>
 						
-						<label><?php esc_html_e( 'Product : ', 'export-bookings-csv' ); ?></label>
+						<label><?php esc_html_e( 'Product : ', 'export-bookings-to-csv' ); ?></label>
 						<select name="mc-wcb-product-select" id="mc-wcb-product-select">
-							<option value=""><?php esc_html_e( 'Select a product', 'export-bookings-csv' ); ?></option>
+							<option value=""><?php esc_html_e( 'Select a product', 'export-bookings-to-csv' ); ?></option>
 							<?php foreach($products as $product) {?>
 								<option value="<?php echo $product->ID;?>" name="event"><?php echo $product->post_title; ?></option>
 							<?php }?>
@@ -99,16 +99,16 @@ if ( !class_exists( 'MC_Export_Bookings' ) ) {
 							<div class="mc-wcb-result"></div>
 						</div>
 						<div class="mc-wcb-export">
-							<h2>2. <?php esc_html_e( 'Click on "export" to generate CSV file :', 'export-bookings-csv' ); ?></h2>
-							<input type="submit" name="mc-wcb-submit" id="mc-wcb-submit" class="button button-primary" value="<?php esc_html_e( 'Export', 'export-bookings-csv' ); ?>" />
+							<h2>2. <?php esc_html_e( 'Click on "export" to generate CSV file :', 'export-bookings-to-csv' ); ?></h2>
+							<input type="submit" name="mc-wcb-submit" id="mc-wcb-submit" class="button button-primary" value="<?php esc_html_e( 'Export', 'export-bookings-to-csv' ); ?>" />
 						</div>
 						<div class="mc-wcb-export-result">
-							<p><?php esc_html_e( 'Be patient, export is in progress, please do not close this page.' , 'export-bookings-csv' ); ?></p>
-							<p><?php esc_html_e( 'A download link will be displayed below at the end of the process.' , 'export-bookings-csv' ); ?></p>
+							<p><?php esc_html_e( 'Be patient, export is in progress, please do not close this page.' , 'export-bookings-to-csv' ); ?></p>
+							<p><?php esc_html_e( 'A download link will be displayed below at the end of the process.' , 'export-bookings-to-csv' ); ?></p>
 						</div>
 						<div class="mc-wcb-download">
-							<h2>3. <?php esc_html_e( 'Download your file :', 'export-bookings-csv' ); ?></h2>
-							<a href="#" class="mc-wcb-link"><?php _e( 'Download', 'export-bookings-csv' ); ?></a>
+							<h2>3. <?php esc_html_e( 'Download your file :', 'export-bookings-to-csv' ); ?></h2>
+							<a href="#" class="mc-wcb-link"><?php _e( 'Download', 'export-bookings-to-csv' ); ?></a>
 						</div>
 					</form>
 				</div>
@@ -119,7 +119,7 @@ if ( !class_exists( 'MC_Export_Bookings' ) ) {
 					<div class="mc-wcb-exports-list postbox">
 						<?php 					
 						$upload_dir = wp_upload_dir();
-						echo '<h2>' . __( 'Your previous exports :', 'export-bookings-csv' ) . '</h2>';
+						echo '<h2>' . __( 'Your previous exports :', 'export-bookings-to-csv' ) . '</h2>';
 						echo '<ul>';
 						foreach ( $exports_list as $file ) {
 							echo '<li><a href="' . $upload_dir['baseurl'] . '/woocommerce-bookings-exports/' . $file . '" class="mc-wcb-link"><span class="dashicons dashicons-download"></span>' . $file . '</a></li>';
