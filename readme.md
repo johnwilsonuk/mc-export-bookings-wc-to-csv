@@ -34,10 +34,10 @@ This section describes how to install the plugin and get it working.
 ![Select bookable product](https://github.com/MarieComet/mc-export-bookings-wc-to-csv/blob/master/screenshots/screenshot-1.png "Select bookable product")
 
 * Step 2 : Start export process
-![Start export process](https://github.com/MarieComet/mc-export-bookings-wc-to-csv/master/screenshots/screenshot-2.png "Start export process")
+![Start export process](https://github.com/MarieComet/mc-export-bookings-wc-to-csv/blob/master/screenshots/screenshot-2.png "Start export process")
 
 * Step 3 : Download your .CSV file
-![Download your .CSV file](https://github.com/MarieComet/mc-export-bookings-wc-to-csv/blob/master/screenshots/screenshot-3-1.png "Download your .CSV file")
+![Download your .CSV file](https://github.com/MarieComet/mc-export-bookings-wc-to-csv/blob/master/screenshots/screenshot-3.png "Download your .CSV file")
 
 ## Changelog
 
