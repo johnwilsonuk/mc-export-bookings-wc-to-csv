@@ -28,6 +28,17 @@ This section describes how to install the plugin and get it working.
 * Activate the plugin through the 'Plugins' menu in WordPress
 * Refer to plugin description in regards to setting up how the plugins works
 
+## Screenshots
+
+* Step 1 : Select bookable product
+![Select bookable product](https://github.com/MarieComet/mc-export-bookings-wc-to-csv/blob/master/screenshots/screenshot-1.png "Select bookable product")
+
+* Step 2 : Start export process
+![Start export process](https://github.com/MarieComet/mc-export-bookings-wc-to-csv/master/screenshots/screenshot-2.png "Start export process")
+
+* Step 3 : Download your .CSV file
+![Download your .CSV file](https://github.com/MarieComet/mc-export-bookings-wc-to-csv/blob/master/screenshots/screenshot-3-1.png "Download your .CSV file")
+
 ## Changelog
 
 ### 1.0
