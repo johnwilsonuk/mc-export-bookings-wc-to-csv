@@ -41,3 +41,8 @@ This section describes how to install the plugin and get it working.
 ### 23/02/2018 1.0.1
 * Totally change the way to query bookings :
 - Instead of looping on orders, query directly bookings for selected product ID.
+
+### 26/02/2018 1.0.2
+* Implement ajax booking search on product select
+* Implement saving export file in custom uploads folder
+* Implement list saved export files in plugin admin screen

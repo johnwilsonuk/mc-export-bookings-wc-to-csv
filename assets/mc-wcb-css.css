@@ -1,0 +1,19 @@
+.mc-wcb-export-box, .mc-wcb-exports-list {
+	padding: 1rem 2rem;
+}
+.mc-wcb-link {
+	text-decoration: none;
+}
+.mc-wcb-response {
+	padding: 1rem 0;
+	position: relative;
+	min-height: 20px;
+}
+.mc-wcb-loader {
+	display: none;
+	position: absolute;
+	top: 0;
+}
+.mc-wcb-export, .mc-wcb-export-result, .mc-wcb-download {
+	display: none;
+}
