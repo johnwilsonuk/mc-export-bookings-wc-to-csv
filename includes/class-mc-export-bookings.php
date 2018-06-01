@@ -293,6 +293,13 @@ if ( !class_exists( 'MC_Export_Bookings' ) ) {
 						} else {
 							$end_date = 'N/A';
 						}
+						
+						$person_count = $booking->get_persons_total();
+						if ( !empty( $person_count ) ) {
+							$booking_person_count = $person_count;
+						} else {
+							$booking_person_count = '0';
+						}
 
 						$order = $booking->get_order();
 						if ( $order ) {
@@ -306,7 +313,7 @@ if ( !class_exists( 'MC_Export_Bookings' ) ) {
 						}
 
 				    	if ( $start_date && $end_date ) { // check if there are a start date and end date
-							$data[] = array($booking_id, $product_name, $start_date, $end_date, $booking_ressource, $customer_name, $customer_last_name, $customer_mail, $customer_phone, $price);
+							$data[] = array($booking_id, $product_name, $start_date, $end_date, $booking_ressource, $customer_name, $customer_last_name, $customer_mail, $customer_phone, $price, $booking_person_count);
 							// here we construct the array to pass informations to export CSV
 						}
 					}
@@ -351,7 +358,8 @@ if ( !class_exists( 'MC_Export_Bookings' ) ) {
 	            __( 'Prenom', 'export-bookings-to-csv' ), 
 	            __( 'Mail', 'export-bookings-to-csv' ), 
 	            __( 'Telephone', 'export-bookings-to-csv' ), 
-	            __( 'Prix paye', 'export-bookings-to-csv' )
+	            __( 'Prix paye', 'export-bookings-to-csv' ),
+	            __( 'Persons', 'export-bookings-to-csv' )
 	        );
 			fputcsv($f, $header, ';');
 			// loop over the input array
