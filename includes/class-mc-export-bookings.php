@@ -409,16 +409,16 @@ if ( !class_exists( 'MC_Export_Bookings' ) ) {
 			//$f = fopen( 'php://output', 'w');
 			$f = fopen( $upload_dir['basedir'] . '/woocommerce-bookings-exports/' . $filename . '.csv', 'w' );
 			$header = array( 
-	            __( 'No Resa', 'export-bookings-to-csv' ), 
-	            __( 'Produit', 'export-bookings-to-csv' ), 
-	            __( 'Debut', 'export-bookings-to-csv' ), 
-	            __( 'Fin', 'export-bookings-to-csv' ), 
+	            __( 'Booking ID', 'export-bookings-to-csv' ), 
+	            __( 'Product', 'export-bookings-to-csv' ), 
+	            __( 'Start', 'export-bookings-to-csv' ), 
+	            __( 'End', 'export-bookings-to-csv' ), 
 	            __( 'Ressource', 'export-bookings-to-csv' ), 
-	            __( 'Nom', 'export-bookings-to-csv' ), 
-	            __( 'Prenom', 'export-bookings-to-csv' ), 
-	            __( 'Mail', 'export-bookings-to-csv' ), 
-	            __( 'Telephone', 'export-bookings-to-csv' ), 
-	            __( 'Prix paye', 'export-bookings-to-csv' ),
+	            __( 'Last name', 'export-bookings-to-csv' ), 
+	            __( 'First name', 'export-bookings-to-csv' ), 
+	            __( 'Email', 'export-bookings-to-csv' ), 
+	            __( 'Phone', 'export-bookings-to-csv' ), 
+	            __( 'Paid price', 'export-bookings-to-csv' ),
 	            __( 'Persons', 'export-bookings-to-csv' )
 	        );
 			fputcsv($f, $header, $delimiter);

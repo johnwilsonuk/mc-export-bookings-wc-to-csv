@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MC Export Bookings WC to CSV\n"
-"POT-Creation-Date: 2018-02-26 18:58+0100\n"
-"PO-Revision-Date: 2018-02-26 19:03+0100\n"
+"POT-Creation-Date: 2018-07-26 17:42+0200\n"
+"PO-Revision-Date: 2018-07-26 17:43+0200\n"
 "Last-Translator: \n"
 "Language-Team: LAB\n"
 "Language: en\n"
@@ -34,95 +34,110 @@ msgstr "Produit :"
 msgid "Select a product"
 msgstr "Sélectionnez un produit"
 
-#: includes/class-mc-export-bookings.php:102
+#: includes/class-mc-export-bookings.php:98
+msgid "Filter by bookings dates : "
+msgstr "Filtrer par dates de réservation"
+
+#: includes/class-mc-export-bookings.php:101
+#: includes/class-mc-export-bookings.php:414
+msgid "Start"
+msgstr "Début"
+
+#: includes/class-mc-export-bookings.php:105
+#: includes/class-mc-export-bookings.php:415
+msgid "End"
+msgstr "Fin"
+
+#: includes/class-mc-export-bookings.php:111
+msgid "Search bookings"
+msgstr "Rechercher des réservations"
+
+#: includes/class-mc-export-bookings.php:117
 msgid "Click on \"export\" to generate CSV file :"
 msgstr "Cliquez sur \"exporter\" pour générer le fichier CSV :"
 
-#: includes/class-mc-export-bookings.php:103
+#: includes/class-mc-export-bookings.php:118
 msgid "Export"
 msgstr "Exporter"
 
-#: includes/class-mc-export-bookings.php:106
+#: includes/class-mc-export-bookings.php:121
 msgid "Be patient, export is in progress, please do not close this page."
 msgstr ""
 "L'export est en cours, soyez patient et ne fermez pas cette page jusqu'à la "
 "fin du processus."
 
-#: includes/class-mc-export-bookings.php:107
+#: includes/class-mc-export-bookings.php:122
 msgid "A download link will be displayed below at the end of the process."
 msgstr ""
 "Un lien pour télécharger votre fichier s'affichera ci-dessous à la fin du "
 "processus"
 
-#: includes/class-mc-export-bookings.php:110
+#: includes/class-mc-export-bookings.php:125
 msgid "Download your file :"
 msgstr "Téléchargez votre fichier :"
 
-#: includes/class-mc-export-bookings.php:111
+#: includes/class-mc-export-bookings.php:126
 msgid "Download"
 msgstr "Télécharger"
 
-#: includes/class-mc-export-bookings.php:122
+#: includes/class-mc-export-bookings.php:137
 msgid "Your previous exports :"
 msgstr "Vos exportations précédentes :"
 
-#: includes/class-mc-export-bookings.php:208
-#: includes/class-mc-export-bookings.php:258
+#: includes/class-mc-export-bookings.php:238
+#: includes/class-mc-export-bookings.php:297
+#: includes/class-mc-export-bookings.php:315
 msgid "Can't found WC_Booking_Data_Store class."
 msgstr "Impossible de trouver la classe WC_Booking_Data_Store."
 
-#: includes/class-mc-export-bookings.php:217
+#: includes/class-mc-export-bookings.php:255
 #, php-format
 msgid "<b>%d</b> booking(s) found."
 msgstr "<b>%d</b> réservation(s) trouvée(s)."
 
-#: includes/class-mc-export-bookings.php:220
+#: includes/class-mc-export-bookings.php:258
 msgid "No booking(s) found for this product."
 msgstr "Aucune réservation trouvée pour ce produit."
 
-#: includes/class-mc-export-bookings.php:225
+#: includes/class-mc-export-bookings.php:263
 msgid "Please select product."
 msgstr "Sélectionnez un produit."
 
-#: includes/class-mc-export-bookings.php:345
-msgid "No Resa"
-msgstr "Booking #"
+#: includes/class-mc-export-bookings.php:412
+msgid "Booking ID"
+msgstr "ID de réservation"
 
-#: includes/class-mc-export-bookings.php:346
-msgid "Produit"
-msgstr "Product"
+#: includes/class-mc-export-bookings.php:413
+msgid "Product"
+msgstr "Produit"
 
-#: includes/class-mc-export-bookings.php:347
-msgid "Debut"
-msgstr "Start"
-
-#: includes/class-mc-export-bookings.php:348
-msgid "Fin"
-msgstr "End"
-
-#: includes/class-mc-export-bookings.php:349
+#: includes/class-mc-export-bookings.php:416
 msgid "Ressource"
 msgstr "Resource"
 
-#: includes/class-mc-export-bookings.php:350
-msgid "Nom"
-msgstr "Last Name"
+#: includes/class-mc-export-bookings.php:417
+msgid "Last name"
+msgstr "Nom"
 
-#: includes/class-mc-export-bookings.php:351
-msgid "Prenom"
-msgstr "First name"
+#: includes/class-mc-export-bookings.php:418
+msgid "First name"
+msgstr "Prénom"
 
-#: includes/class-mc-export-bookings.php:352
-msgid "Mail"
+#: includes/class-mc-export-bookings.php:419
+msgid "Email"
 msgstr "Email"
 
-#: includes/class-mc-export-bookings.php:353
-msgid "Telephone"
-msgstr "Telephone"
+#: includes/class-mc-export-bookings.php:420
+msgid "Phone"
+msgstr "Téléphone"
 
-#: includes/class-mc-export-bookings.php:354
-msgid "Prix paye"
-msgstr "Price paid"
+#: includes/class-mc-export-bookings.php:421
+msgid "Paid price"
+msgstr "Prix payé"
+
+#: includes/class-mc-export-bookings.php:422
+msgid "Persons"
+msgstr "Personnes"
 
 #: mc-export-bookings-wc-to-csv.php:54
 msgid ""
@@ -132,6 +147,33 @@ msgstr ""
 "L'extension MC Export Bookings WC to CSV requiert \"WooCommerce\" et "
 "\"WooCommerce Bookings\" pour fonctionner. Veuillez les télécharger et les "
 "activer."
+
+#~ msgid "No Resa"
+#~ msgstr "Booking #"
+
+#~ msgid "Produit"
+#~ msgstr "Product"
+
+#~ msgid "Debut"
+#~ msgstr "Start"
+
+#~ msgid "Fin"
+#~ msgstr "End"
+
+#~ msgid "Nom"
+#~ msgstr "Last Name"
+
+#~ msgid "Prenom"
+#~ msgstr "First name"
+
+#~ msgid "Mail"
+#~ msgstr "Email"
+
+#~ msgid "Telephone"
+#~ msgstr "Telephone"
+
+#~ msgid "Prix paye"
+#~ msgstr "Price paid"
 
 #~ msgid "Export WooCommerce Bookings"
 #~ msgstr "Exporter les ré"
