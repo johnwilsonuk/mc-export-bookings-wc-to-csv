@@ -4,8 +4,8 @@
 * Website link: https://mariecomet.fr/
 * Tags: woocommerce
 * Requires at least: 4.7
-* Tested up to: 4.9.4
-* Stable tag: 1.0.1
+* Tested up to: 4.9.7
+* Stable tag: 1.0.3
 * License: GPLv2 or later
 * License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -57,3 +57,7 @@ This section describes how to install the plugin and get it working.
 * Implement ajax booking search on product select
 * Implement saving export file in custom uploads folder
 * Implement list saved export files in plugin admin screen
+
+### 26/07/2018 1.0.3
+* Add start and end dates to filters bookings before export
+* Add `mc_wcb_csv_delimiter` filter to allow third party change the CSV delimiter

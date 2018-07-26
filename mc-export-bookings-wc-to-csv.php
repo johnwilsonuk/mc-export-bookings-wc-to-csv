@@ -5,15 +5,15 @@
  * Description: MC Export Bookings WC to CSV provides user ability to Export WooCommerce Bookings to CSV
  * Author: Marie Comet
  * Author URI: https://www.mariecomet.fr
- * Version: 1.0.2
+ * Version: 1.0.3
  * License: GPLv2
  * License URI: http://www.gnu.org/licenses/gpl-2.0.html
  *
  * Text Domain: export-bookings-to-csv
  * Domain Path: /languages/
  * WC requires at least: 2.2
- * WC tested up to: 3.2.6
- *
+ * WC tested up to: 3.4.4
+ * WC Booking tested up to : 1.11.1
  */
 defined( 'ABSPATH' ) or die( 'Cheatin&#8217; uh?' );
 
