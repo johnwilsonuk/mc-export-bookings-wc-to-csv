@@ -15,8 +15,8 @@ Export WooCommerce Bookings to CSV
 
 MC Export Bookings WC to CSV provides user ability to Export WooCommerce Bookings to CSV.
 After plugin installed and activated, you will see a sub menu page in WooCommerce menu called "Export bookings".
-Here you can select the product for which to export reservations.
-Click on "Export", be patient if you have a lot of bookings.
+Here you can select the product for which to export bookings, and also start and end dates.
+Click on "Fetch" to fetch bookings, and next click on "Export", be patient if you have a lot of bookings.
 
 The plugin is still in its infant age and developers are welcome to extend.
 
