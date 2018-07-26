@@ -37,9 +37,11 @@ This section describes how to install the plugin and get it working.
 ![Start export process](https://github.com/MarieComet/mc-export-bookings-wc-to-csv/blob/master/screenshots/screenshot-2.png "Start export process")
 
 * Step 3 : Download your .CSV file
+
 ![Download your .CSV file](https://github.com/MarieComet/mc-export-bookings-wc-to-csv/blob/master/screenshots/screenshot-3.png "Download your .CSV file")
 
 * All the .CSV files are saved on your server and are listed below the export box :
+
 ![Previous .CSV files](https://github.com/MarieComet/mc-export-bookings-wc-to-csv/blob/master/screenshots/screenshot-4.png "Previous .CSV files")
 
 ## Changelog
