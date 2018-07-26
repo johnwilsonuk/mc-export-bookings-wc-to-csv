@@ -1,8 +1,9 @@
 .mc-wcb-export-box, .mc-wcb-exports-list {
 	padding: 1rem 2rem;
 }
-.mc-wcb-link {
-	text-decoration: none;
+.mc-wcb-export-box label {
+    margin: 1rem 0;
+    display: inline-block;
 }
 .mc-wcb-response {
 	padding: 1rem 0;
@@ -14,6 +15,9 @@
 	position: absolute;
 	top: 0;
 }
-.mc-wcb-export, .mc-wcb-export-result, .mc-wcb-download {
+.mc-wcb-export, .mc-wcb-export-result, .mc-wcb-download, .mc-wcb-date-picker {
 	display: none;
+}
+.mc-wcb-date-picker.visible {
+	display: block;
 }

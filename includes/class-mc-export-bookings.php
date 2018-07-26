@@ -87,13 +87,28 @@ if ( !class_exists( 'MC_Export_Bookings' ) ) {
 						<?php wp_nonce_field( 'export-bookings-bookings_export', '_wpnonce-export-bookings' ); ?>
 						<h2>1. <?php esc_html_e( 'Select from which product to export bookings :', 'export-bookings-to-csv' ); ?></h2>
 						
-						<label><?php esc_html_e( 'Product : ', 'export-bookings-to-csv' ); ?></label>
+						<label for="mc-wcb-product-select"><?php esc_html_e( 'Product : ', 'export-bookings-to-csv' ); ?></label>
 						<select name="mc-wcb-product-select" id="mc-wcb-product-select">
 							<option value=""><?php esc_html_e( 'Select a product', 'export-bookings-to-csv' ); ?></option>
 							<?php foreach($products as $product) {?>
 								<option value="<?php echo $product->ID;?>" name="event"><?php echo $product->post_title; ?></option>
 							<?php }?>
 						</select>
+						<div class="mc-wcb-dates">
+							<label for="mc-wcb-dates"><?php esc_html_e( 'Filter by bookings dates : ', 'export-bookings-to-csv' ); ?></label>
+							<input type="checkbox" name="mc-wcb-dates" id="mc-wcb-dates">
+							<div class="mc-wcb-date-picker">
+								<label for="mc_wcv_start_date"><?php esc_html_e( 'Start', 'export-bookings-to-csv' ); ?> :</label>
+								    <input type="date" id="mc_wcv_start_date" name="mc_wcv_start_date"
+								    value="<?php echo date('Y-m-d') ; ?>"
+								    max="<?php echo date('Y-m-d') ; ?>" />
+								<label for="mc_wcv_end_date"><?php esc_html_e( 'End', 'export-bookings-to-csv' ); ?> :</label>
+								    <input type="date" id="mc_wcv_end_date" name="mc_wcv_end_date"
+								    value="<?php echo date('Y-m-d') ; ?>"
+								    max="<?php echo date('Y-m-d') ; ?>" />
+							</div>
+						</div>
+						<input type="submit" name="mc-wcb-fetch" id="mc-wcb-fetch" class="button button-secondary" value="<?php esc_html_e( 'Search bookings', 'export-bookings-to-csv' ); ?>" />
 						<div class="mc-wcb-response">
 							<img src="<?php echo MC_WCB_CSV ?>img/loader.svg" class="mc-wcb-loader"/>
 							<div class="mc-wcb-result"></div>
@@ -164,18 +179,28 @@ if ( !class_exists( 'MC_Export_Bookings' ) ) {
 		* @param $product_id int
 		* @return $bookinds_ids array
 		*/
-		public function mc_wcb_get_bookings( $product_id ) {
-			if ( $product_id ) {
+		public function mc_wcb_get_bookings( $data_search ) {
+			if ( $data_search ) {
 
 				$booking_data = new WC_Booking_Data_Store();
 
-				$bookings_ids = $booking_data->get_booking_ids_by( array(
-					'object_id'   => $product_id,
+				$args = array(
+					'object_id'   => $data_search['product_id'],
 					'object_type' => 'product',
 					'order_by' => 'start_date',
 					'status'      => array( 'confirmed', 'paid', 'complete' ),
 					'limit'        => -1,
-				) );
+				);
+
+				if ( isset( $data_search['date_start'] ) && !empty( $data_search['date_start'] ) ) {
+					$args['date_after'] = strtotime( $data_search['date_start'] );
+				}
+
+				if ( isset( $data_search['date_end'] ) && !empty( $data_search['date_end'] ) ) {
+					$args['date_before'] = strtotime(  $data_search['date_end'] );
+				}
+
+				$bookings_ids = $booking_data->get_booking_ids_by( $args );
 
 				return $bookings_ids;
 			}
@@ -201,7 +226,12 @@ if ( !class_exists( 'MC_Export_Bookings' ) ) {
 			}
 
 			if ( isset( $_GET['selected_product_id'] ) && !empty( $_GET['selected_product_id'] ) ) {
+
+				$data_search = array();
+
 				$product_id = $_GET['selected_product_id'];
+
+				$data_search['product_id'] = $product_id;
 
 				if ( ! class_exists( 'WC_Booking_Data_Store' ) ) {
 					$error = 0;
@@ -210,7 +240,15 @@ if ( !class_exists( 'MC_Export_Bookings' ) ) {
 					exit;
 				}
 
-				$bookings_ids = $this->mc_wcb_get_bookings( $product_id );
+				if ( isset( $_GET['date_start'] ) && !empty( $_GET['date_start'] ) ) {
+					$data_search['date_start'] = $_GET['date_start'];
+				}
+
+				if ( isset( $_GET['date_end'] ) && !empty( $_GET['date_end'] ) ) {
+					$data_search['date_end'] = $_GET['date_end'];
+				}
+
+				$bookings_ids = $this->mc_wcb_get_bookings( $data_search );
 				
 				if ( $bookings_ids ) {
 					$booking_count = count( $bookings_ids );
@@ -250,6 +288,25 @@ if ( !class_exists( 'MC_Export_Bookings' ) ) {
 
 				$product_id = $_GET['selected_product_id'];
 
+				$data_search = array();
+
+				$data_search['product_id'] = $product_id;
+
+				if ( ! class_exists( 'WC_Booking_Data_Store' ) ) {
+					$error = 0;
+					$error['message'] = __( 'Can\'t found WC_Booking_Data_Store class.', 'export-bookings-to-csv' );
+					wp_send_json_error( $error );
+					exit;
+				}
+
+				if ( isset( $_GET['date_start'] ) && !empty( $_GET['date_start'] ) ) {
+					$data_search['date_start'] = $_GET['date_start'];
+				}
+
+				if ( isset( $_GET['date_end'] ) && !empty( $_GET['date_end'] ) ) {
+					$data_search['date_end'] = $_GET['date_end'];
+				}
+
 				$product_slug = get_post_field( 'post_name', $product_id );
 				$file_name = $product_slug . '-' . date('d-m-Y-h-i');
 
@@ -260,7 +317,7 @@ if ( !class_exists( 'MC_Export_Bookings' ) ) {
 					exit;
 				}
 
-				$bookings_ids = $this->mc_wcb_get_bookings( $product_id );
+				$bookings_ids = $this->mc_wcb_get_bookings( $data_search );
 				
 				if ( $bookings_ids ) {
 
@@ -269,6 +326,7 @@ if ( !class_exists( 'MC_Export_Bookings' ) ) {
 					$data = array();
 
 					foreach ( $bookings_ids as $booking_id ) {
+
 						$booking = new WC_Booking( $booking_id );
 
 						$product_name = $booking->get_product()->get_title();
@@ -304,12 +362,13 @@ if ( !class_exists( 'MC_Export_Bookings' ) ) {
 						$order = $booking->get_order();
 						if ( $order ) {
 
-							$customer_name = ( $order->get_billing_first_name() ? $order->get_billing_first_name() : 'N/A' );
+							$customer_name = ( '' !== $order->get_billing_first_name() ? $order->get_billing_first_name() : 'N/A' );
 							$customer_last_name = ( $order->get_billing_last_name() ? $order->get_billing_last_name() : 'N/A' );
 							$customer_mail = ( $order->get_billing_email() ? $order->get_billing_email() : 'N/A' );
 							$customer_phone = ( $order->get_billing_phone() ? $order->get_billing_phone() : 'N/A' );
-
 							$price = ( $order->get_total() ? $order->get_total() : 'N/A' );
+						} else {
+							$customer_name = $customer_last_name = $customer_mail = $customer_phone = $price = 'N/A';
 						}
 
 				    	if ( $start_date && $end_date ) { // check if there are a start date and end date
@@ -319,10 +378,11 @@ if ( !class_exists( 'MC_Export_Bookings' ) ) {
 					}
 
 					if ( $data && is_array( $data ) && !empty( $data ) ) {
-						$file_url = $this->array_to_csv_download( $data, $file_name ); // pass $data to array_to_csv_download function
+
+						$delimiter = apply_filters( 'mc_wcb_csv_delimiter', ';' );
+						$file_url = $this->array_to_csv_download( $data, $file_name, $delimiter ); // pass $data to array_to_csv_download function
 
 						if ( $file_url ) {
-							error_log(print_r($file_url, true));
 							$json['file_url'] = $file_url;
 							wp_send_json_success( $json );
 						}
@@ -342,7 +402,7 @@ if ( !class_exists( 'MC_Export_Bookings' ) ) {
 		* @return $file_url string
 		* @since 1.0.0
 		*/
-		function array_to_csv_download( $data, $filename, $delimiter="," ) {
+		function array_to_csv_download( $data, $filename, $delimiter ) {
 
 			ob_start();
 			$upload_dir = wp_upload_dir();
@@ -361,27 +421,17 @@ if ( !class_exists( 'MC_Export_Bookings' ) ) {
 	            __( 'Prix paye', 'export-bookings-to-csv' ),
 	            __( 'Persons', 'export-bookings-to-csv' )
 	        );
-			fputcsv($f, $header, ';');
+			fputcsv($f, $header, $delimiter);
 			// loop over the input array
 			foreach ($data as $line) { 
 				// generate csv lines from the inner arrays
-				fputcsv($f, $line, ';'); 
+				fputcsv($f, $line, $delimiter); 
 			}
 			fclose($f);
 
 			$file_url = $upload_dir['baseurl'] . '/woocommerce-bookings-exports/' . $filename . '.csv';
 
 			return $file_url;
-			
-
-			// rewrind the "file" with the csv lines
-			// fseek($f, 0);
-			/*header("Content-Type: application/csv");    
-			header("Content-Disposition: attachment; filename=" . $filename . ".csv");  
-			// Disable caching
-			header("Cache-Control: no-cache, no-store, must-revalidate"); // HTTP 1.1
-			header("Pragma: no-cache"); // HTTP 1.0
-			header("Expires: 0"); // Proxies*/
 		}
 	}
 	
