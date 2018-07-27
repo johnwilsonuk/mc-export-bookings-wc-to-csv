@@ -99,13 +99,9 @@ if ( !class_exists( 'MC_Export_Bookings' ) ) {
 							<input type="checkbox" name="mc-wcb-dates" id="mc-wcb-dates">
 							<div class="mc-wcb-date-picker">
 								<label for="mc_wcv_start_date"><?php esc_html_e( 'Start', 'export-bookings-to-csv' ); ?> :</label>
-								    <input type="date" id="mc_wcv_start_date" name="mc_wcv_start_date"
-								    value="<?php echo date('Y-m-d') ; ?>"
-								    max="<?php echo date('Y-m-d') ; ?>" />
+								    <input type="date" id="mc_wcv_start_date" name="mc_wcv_start_date" value="<?php echo date('Y-m-d') ; ?>" />
 								<label for="mc_wcv_end_date"><?php esc_html_e( 'End', 'export-bookings-to-csv' ); ?> :</label>
-								    <input type="date" id="mc_wcv_end_date" name="mc_wcv_end_date"
-								    value="<?php echo date('Y-m-d') ; ?>"
-								    max="<?php echo date('Y-m-d') ; ?>" />
+								    <input type="date" id="mc_wcv_end_date" name="mc_wcv_end_date" value="<?php echo date('Y-m-d') ; ?>" />
 							</div>
 						</div>
 						<input type="submit" name="mc-wcb-fetch" id="mc-wcb-fetch" class="button button-secondary" value="<?php esc_html_e( 'Search bookings', 'export-bookings-to-csv' ); ?>" />
