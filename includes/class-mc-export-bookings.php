@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * @package MC_Export_Bookings_WC_to_CSV
  * @version 1.0.2
@@ -18,7 +18,7 @@ defined( 'ABSPATH' ) or die( 'Cheatin&#8217; uh?' );
 **/
 if ( !class_exists( 'MC_Export_Bookings' ) ) {
 	class MC_Export_Bookings {
-		
+
 		/**
 		* Class contructor
 		*
@@ -28,7 +28,7 @@ if ( !class_exists( 'MC_Export_Bookings' ) ) {
 			add_action( 'admin_menu', array( $this, 'add_admin_pages' ) );
 			add_action( 'admin_enqueue_scripts', array( $this, 'mc_wcb_csv_register_script' ) );
 			add_action( 'wp_ajax_mc_wcb_find_booking', array( $this, 'mc_wcb_find_booking' ) );
-			add_action( 'wp_ajax_mc_wcb_export', array( $this, 'mc_wcb_export' ) );		
+			add_action( 'wp_ajax_mc_wcb_export', array( $this, 'mc_wcb_export' ) );
 		}
 
 		public function mc_wcb_csv_register_script( $hook ) {
@@ -40,7 +40,7 @@ if ( !class_exists( 'MC_Export_Bookings' ) ) {
 			wp_register_script( 'mc-wcb-script', MC_WCB_CSV . 'assets/mc-wcb-script.js', array( 'jquery' ), '1.0', true );
 			wp_enqueue_script( 'mc-wcb-script' );
 			wp_localize_script( 'mc-wcb-script', 'mc_wcb_params', array( 'ajax_url' => admin_url( 'admin-ajax.php' ), 'security' => wp_create_nonce( 'mc-wcb-nonce' ) ) );
-			
+
 			wp_register_style('mc-wcb-css', MC_WCB_CSV . 'assets/mc-wcb-css.css');
 			wp_enqueue_style( 'mc-wcb-css' );
 		}
@@ -51,21 +51,21 @@ if ( !class_exists( 'MC_Export_Bookings' ) ) {
 		* @since 0.1
 		**/
 		public function add_admin_pages() {
-			add_submenu_page( 
-	            'edit.php?post_type=wc_booking', 
+			add_submenu_page(
+	            'edit.php?post_type=wc_booking',
 	            __( 'Export bookings', 'export-bookings-to-csv' ),
 	            __( 'Export bookings', 'export-bookings-to-csv' ),
-	            'manage_options', 
-	            'export-bookings-to-csv', 
-	            array( $this,'mc_wcb_main_screen') 
+	            'manage_options',
+	            'export-bookings-to-csv',
+	            array( $this,'mc_wcb_main_screen')
 	        );
 		}
 
 		/**
-		* Main plugin screen 
+		* Main plugin screen
 		*/
-		public function mc_wcb_main_screen() {		
-		
+		public function mc_wcb_main_screen() {
+
 			$args = array(
 			    'post_type' => 'product',
 			    'posts_per_page' => -1,
@@ -86,7 +86,7 @@ if ( !class_exists( 'MC_Export_Bookings' ) ) {
 					<form method="post" name="csv_exporter_form" action="" enctype="multipart/form-data">
 						<?php wp_nonce_field( 'export-bookings-bookings_export', '_wpnonce-export-bookings' ); ?>
 						<h2>1. <?php esc_html_e( 'Select from which product to export bookings :', 'export-bookings-to-csv' ); ?></h2>
-						
+
 						<label for="mc-wcb-product-select"><?php esc_html_e( 'Product : ', 'export-bookings-to-csv' ); ?></label>
 						<select name="mc-wcb-product-select" id="mc-wcb-product-select">
 							<option value=""><?php esc_html_e( 'Select a product', 'export-bookings-to-csv' ); ?></option>
@@ -128,7 +128,7 @@ if ( !class_exists( 'MC_Export_Bookings' ) ) {
 				if ( $exports_list ) {
 				?>
 					<div class="mc-wcb-exports-list postbox">
-						<?php 					
+						<?php
 						$upload_dir = wp_upload_dir();
 						echo '<h2>' . __( 'Your previous exports :', 'export-bookings-to-csv' ) . '</h2>';
 						echo '<ul>';
@@ -140,7 +140,7 @@ if ( !class_exists( 'MC_Export_Bookings' ) ) {
 					</div>
 				<?php } ?>
 			</div>
-			<?php 
+			<?php
 		}
 
 		/**
@@ -184,7 +184,7 @@ if ( !class_exists( 'MC_Export_Bookings' ) ) {
 					'object_id'   => $data_search['product_id'],
 					'object_type' => 'product',
 					'order_by' => 'start_date',
-					'status'      => array( 'confirmed', 'paid', 'complete' ),
+					'status'      => apply_filters( 'mc_wcb_csv_statuses', array( 'confirmed', 'paid', 'complete' ) ),
 					'limit'        => -1,
 				);
 
@@ -203,7 +203,7 @@ if ( !class_exists( 'MC_Export_Bookings' ) ) {
 
 			return false;
 		}
-		
+
 		/**
 		* mc_wcb_find_booking
 		* Find booking when select a product
@@ -245,7 +245,7 @@ if ( !class_exists( 'MC_Export_Bookings' ) ) {
 				}
 
 				$bookings_ids = $this->mc_wcb_get_bookings( $data_search );
-				
+
 				if ( $bookings_ids ) {
 					$booking_count = count( $bookings_ids );
 					$data['message'] =  sprintf( __( '<b>%d</b> booking(s) found.', 'export-bookings-to-csv' ), $booking_count );
@@ -269,7 +269,7 @@ if ( !class_exists( 'MC_Export_Bookings' ) ) {
 		* Contruct PHP data array for CSV export
 		*
 		* @since 0.1
-		**/		
+		**/
 		public function mc_wcb_export(){
 
 			// verify nonce
@@ -280,7 +280,7 @@ if ( !class_exists( 'MC_Export_Bookings' ) ) {
 			}
 
 			if ( isset( $_GET['selected_product_id'] ) && !empty( $_GET['selected_product_id'] ) ) {
-		
+
 
 				$product_id = $_GET['selected_product_id'];
 
@@ -314,7 +314,7 @@ if ( !class_exists( 'MC_Export_Bookings' ) ) {
 				}
 
 				$bookings_ids = $this->mc_wcb_get_bookings( $data_search );
-				
+
 				if ( $bookings_ids ) {
 
 					$json = array();
@@ -347,7 +347,7 @@ if ( !class_exists( 'MC_Export_Bookings' ) ) {
 						} else {
 							$end_date = 'N/A';
 						}
-						
+
 						$person_count = $booking->get_persons_total();
 						if ( !empty( $person_count ) ) {
 							$booking_person_count = $person_count;
@@ -363,12 +363,13 @@ if ( !class_exists( 'MC_Export_Bookings' ) ) {
 							$customer_mail = ( $order->get_billing_email() ? $order->get_billing_email() : 'N/A' );
 							$customer_phone = ( $order->get_billing_phone() ? $order->get_billing_phone() : 'N/A' );
 							$price = ( $order->get_total() ? $order->get_total() : 'N/A' );
+							$order_status = ( $order->get_status() ? $order->get_status() : 'N/A' );
 						} else {
-							$customer_name = $customer_last_name = $customer_mail = $customer_phone = $price = 'N/A';
+							$customer_name = $customer_last_name = $customer_mail = $customer_phone = $price = $order_status = 'N/A';
 						}
 
 				    	if ( $start_date && $end_date ) { // check if there are a start date and end date
-							$data[] = array($booking_id, $product_name, $start_date, $end_date, $booking_ressource, $customer_name, $customer_last_name, $customer_mail, $customer_phone, $price, $booking_person_count);
+							$data[] = array($booking_id, $product_name, $start_date, $end_date, $booking_ressource, $customer_name, $customer_last_name, $customer_mail, $customer_phone, $price, $order_status, $booking_person_count);
 							// here we construct the array to pass informations to export CSV
 						}
 					}
@@ -388,7 +389,7 @@ if ( !class_exists( 'MC_Export_Bookings' ) ) {
 
 			wp_die();
 		}
-		
+
 		/**
 		* array_to_csv_download
 		* Process PHP array to CSV file
@@ -404,24 +405,25 @@ if ( !class_exists( 'MC_Export_Bookings' ) ) {
 			$upload_dir = wp_upload_dir();
 			//$f = fopen( 'php://output', 'w');
 			$f = fopen( $upload_dir['basedir'] . '/woocommerce-bookings-exports/' . $filename . '.csv', 'w' );
-			$header = array( 
-	            __( 'Booking ID', 'export-bookings-to-csv' ), 
-	            __( 'Product', 'export-bookings-to-csv' ), 
-	            __( 'Start', 'export-bookings-to-csv' ), 
-	            __( 'End', 'export-bookings-to-csv' ), 
-	            __( 'Ressource', 'export-bookings-to-csv' ), 
-	            __( 'Last name', 'export-bookings-to-csv' ), 
-	            __( 'First name', 'export-bookings-to-csv' ), 
-	            __( 'Email', 'export-bookings-to-csv' ), 
-	            __( 'Phone', 'export-bookings-to-csv' ), 
+			$header = array(
+	            __( 'Booking ID', 'export-bookings-to-csv' ),
+	            __( 'Product', 'export-bookings-to-csv' ),
+	            __( 'Start', 'export-bookings-to-csv' ),
+	            __( 'End', 'export-bookings-to-csv' ),
+	            __( 'Ressource', 'export-bookings-to-csv' ),
+	            __( 'Last name', 'export-bookings-to-csv' ),
+	            __( 'First name', 'export-bookings-to-csv' ),
+	            __( 'Email', 'export-bookings-to-csv' ),
+	            __( 'Phone', 'export-bookings-to-csv' ),
 	            __( 'Paid price', 'export-bookings-to-csv' ),
+	            __( 'Order status', 'export-bookings-to-csv' ),
 	            __( 'Persons', 'export-bookings-to-csv' )
 	        );
 			fputcsv($f, $header, $delimiter);
 			// loop over the input array
-			foreach ($data as $line) { 
+			foreach ($data as $line) {
 				// generate csv lines from the inner arrays
-				fputcsv($f, $line, $delimiter); 
+				fputcsv($f, $line, $delimiter);
 			}
 			fclose($f);
 
@@ -430,9 +432,9 @@ if ( !class_exists( 'MC_Export_Bookings' ) ) {
 			return $file_url;
 		}
 	}
-	
+
 	global $mc_wcb_csv;
-	
+
 	if ( ! isset( $mc_wcb_csv ) ) {
 
 	    $mc_wcb_csv = new MC_Export_Bookings();
